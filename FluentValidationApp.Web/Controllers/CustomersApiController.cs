@@ -1,7 +1,10 @@
-﻿using FluentValidation;
+﻿using AutoMapper;
+using FluentValidation;
+using FluentValidationApp.Web.DTOs;
 using FluentValidationApp.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,18 +17,46 @@ namespace FluentValidationApp.Web.Controllers
     {
         private readonly AppDbContext _context;
         private readonly IValidator<Customer> _customerValidator;
+        private readonly IMapper _mapper;
 
-        public CustomersApiController(AppDbContext context, IValidator<Customer> customerValidator)
+        public CustomersApiController(AppDbContext context, IValidator<Customer> customerValidator, IMapper mapper)
         {
             _context = context;
             _customerValidator = customerValidator;
+            _mapper = mapper;
         }
+
+
+        [Route("MappingExample")] // not to mix with the other HttpGet method. 
+        [HttpGet]
+        public IActionResult MappingExample()
+        {
+            Customer customer = new Customer
+            {
+                Id = 1,
+                Name = "Test1",
+                Email = "test@gmail.com",
+                Age = 10,
+                CreditCard = new CreditCard
+                {
+                    Number = "121212",
+                    ValidDate = DateTime.Now
+                }
+            };
+
+            var customerDto = _mapper.Map<CustomerDto>(customer);
+
+            return Ok(customerDto);
+        }
+
 
         // GET: api/CustomersApi
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomer()
+        public async Task<ActionResult<List<CustomerDto>>> GetCustomer()
         {
-            return await _context.Customer.ToListAsync();
+            List<Customer> customers = await _context.Customer.ToListAsync();
+
+            return _mapper.Map<List<CustomerDto>>(customers);
         }
 
         // GET: api/CustomersApi/5

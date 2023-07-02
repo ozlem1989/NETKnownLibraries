@@ -14,6 +14,15 @@ namespace FluentValidationApp.Web.Models
         public DateTime? BirthDate { get; set; }
         public IList<Address> Addresses { get; set; }
         public Gender Gender { get; set; }
+
+        // also it can call by GetFullName
+        public string FullName2()
+        {
+            return $"{Name}-{Email}-{Age}";
+        }
+
+        // komplex tip => Flattening :  Kompleks tipleri düzleştirme. 
+        public CreditCard CreditCard { get; set; }
     }
 }
 

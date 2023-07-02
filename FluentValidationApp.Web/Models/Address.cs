@@ -6,6 +6,9 @@
         public string Content { get; set; }
         public string Province { get; set; }
         public string PostalCode { get; set; }
+
+        // tracking : 
         public virtual Customer Customer { get; set; }
+
     }
 }

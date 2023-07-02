@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FluentValidationApp.Web.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230627124603_Add_NewTable_Address")]
-    partial class Add_NewTable_Address
+    [Migration("20230701121759_Add_Address_Table")]
+    partial class Add_Address_Table
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,9 +31,6 @@ namespace FluentValidationApp.Web.Migrations
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CustomerId")
-                        .HasColumnType("int");
-
                     b.Property<string>("PostalCode")
                         .HasColumnType("nvarchar(max)");
 
@@ -41,8 +38,6 @@ namespace FluentValidationApp.Web.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
 
                     b.ToTable("Address");
                 });
@@ -53,6 +48,9 @@ namespace FluentValidationApp.Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("AddressId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Age")
                         .HasColumnType("int");
@@ -68,14 +66,16 @@ namespace FluentValidationApp.Web.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AddressId");
+
                     b.ToTable("Customer");
                 });
 
-            modelBuilder.Entity("FluentValidationApp.Web.Models.Address", b =>
+            modelBuilder.Entity("FluentValidationApp.Web.Models.Customer", b =>
                 {
-                    b.HasOne("FluentValidationApp.Web.Models.Customer", "Customer")
-                        .WithMany("Addresses")
-                        .HasForeignKey("CustomerId");
+                    b.HasOne("FluentValidationApp.Web.Models.Address", "Address")
+                        .WithMany("Customers")
+                        .HasForeignKey("AddressId");
                 });
 #pragma warning restore 612, 618
         }

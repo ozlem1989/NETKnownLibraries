@@ -1,22 +1,22 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FluentValidationApp.Web.Migrations
 {
-    public partial class Add_Prop_Birthdate : Migration
+    public partial class Add_Gender_Prop : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<DateTime>(
-                name: "BirthDate",
+            migrationBuilder.AddColumn<int>(
+                name: "Gender",
                 table: "Customer",
-                nullable: true);
+                nullable: false,
+                defaultValue: 0);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "BirthDate",
+                name: "Gender",
                 table: "Customer");
         }
     }

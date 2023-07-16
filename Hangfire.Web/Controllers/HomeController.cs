@@ -21,6 +21,9 @@ namespace Hangfire.Web.Controllers
 
         public IActionResult Index()
         {
+            //RecurringJobs.EmailReportJob();
+            DelayedJobs.WriteJob(); 
+
             return View();
         }
 
